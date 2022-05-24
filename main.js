@@ -1,5 +1,8 @@
 const cellContainer = document.querySelector('#cell-container');
 const button = document.querySelector('button');
+const slider = document.querySelector('.slider');
+const output = document.getElementById("gridSizeDisplay");
+
 
 //FUNCTIONS
 function generateGrid(rows) {
@@ -30,10 +33,26 @@ function generateGrid(rows) {
     }
 }
 
-//EVENT LISTENERS
-button.addEventListener('click', mainFunc);
+function changeCellsOnHover() {
+    const cells = document.querySelectorAll('.cell');
 
-//MAIN FUNCTION
-function mainFunc() {
-    generateGrid(16);
+    cells.forEach(div => {
+        div.addEventListener('mouseenter', () => {
+            div.style.backgroundColor = 'black';
+        });
+    });
 }
+
+//initialize grid size output to 16 and generate 16x16 grid;
+output.innerHTML = slider.value;
+generateGrid(16);
+
+//have cells animate one mouse hover
+changeCellsOnHover();
+
+//on every slider adjustment, output updated grid size and generate new grid
+slider.oninput = function() {
+    output.innerHTML = this.value;
+    generateGrid(this.value);
+    changeCellsOnHover();
+};
