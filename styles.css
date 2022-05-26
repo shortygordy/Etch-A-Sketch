@@ -19,24 +19,77 @@ body {
 
 #header {
     background-color: rgb(52, 49, 75);
+    min-height: 65px;
     height: 100px;
     color: white;
 }
 
-.container {
-    max-width: 1100px;
-    margin: 0 auto;
-    /* border: yellow 1px solid; */
+#header .container,
+#footer .container {
     height: 100%;
+    align-items: center;
+}
+
+#leftSide,
+#rightSide {
+    /* border: 1px blue solid; */
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    gap: 30px;
+}
+
+#leftSide {
+    flex: 1 2 auto;
+    height: 65%;
+}
+
+#rightSide {
+    flex: 1 1 auto;
+}
+
+#colorPicker {
+    -webkit-appearance: none;
+    width: 80px;
+    height: 80px;
+    border: none;
+}
+
+input[type='color']::-webkit-color-swatch-wrapper {
+    padding: 0;
+    background-color: rgb(73, 89, 92);
+}
+
+input[type='color']::-webkit-color-swatch {
+    border: none;
+    border-radius: 50px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    transform: scale(1);
+    transition: all .2s;
+}
+
+input[type='color'] {
+    transition: transform 0.1s ease-in-out;
+}
+
+input[type='color']:hover {
+    transform: scale(1.05);
+}
+
+.container {
+    height: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    /* gap: 30px; */
 }
 
 #main-content {
-    padding-top: 30px;
+    max-height: 700px;
+    min-height: 600px;
+    padding: 30px 0px;
     flex: 1 1 auto;
     /* border: 1px solid yellow; */
 }
@@ -46,7 +99,7 @@ body {
     -webkit-appearance: none;
     appearance: none;
     height: 5px;
-    background: orange;
+    background: rgb(0, 229, 255);
     border-radius: 5px;
     outline: none;
     opacity: .7;
@@ -56,6 +109,7 @@ body {
 
 .slider:hover {
     opacity: 1;
+    background: rgb(255, 108, 54);
 }
 
 .slider::-webkit-slider-thumb {
@@ -84,23 +138,31 @@ body {
 }
 
 button {
-    border: none;
-    border-radius: 25px;
-    color: rgb(0, 0, 0);
-    padding: 15px 35px;
-    font-size: 20px;
-    background-color: rgb(75, 180, 232);
+    border: .1px solid white;
+    border-radius: 5px;
+    color: white;
+    padding: 10px 20px;
+    font-size: 15px;
+    background-color: rgb(73, 89, 92);
+    transition: all .2s;
+    width: 150px;
 }
 
 button:hover {
-    background-color: rgb(126, 199, 236);
+    /* background-color: rgb(52, 63, 67); */
     cursor: pointer;
+    transform: scale(1.05);
+}
+
+.selected {
+    background-color: aliceblue;
+    color: black;
 }
 
 #cell-container {
     /* border: rgb(255, 255, 255) 2px solid; */
-    height: 500px;
-    width: 500px;
+    height: 400px;
+    width: 400px;
     border-radius: 15px;
     display: flex;
     flex-wrap: wrap;
@@ -131,8 +193,19 @@ button:hover {
     flex-shrink: 0;
 }
 
-@media(max-width: 650px) {
+@media(max-width: 620px) {
     #cell-container {
-        transform: scale(.5);
+        height: 300px;
+        width: 300px;
+    }
+}
+
+@media(max-width: 500px) {
+    .container {
+        flex-direction: column-reverse;
+    }
+    #cell-container {
+        height: 200px;
+        width: 200px;
     }
 }

@@ -1,16 +1,40 @@
+//GRAB ELEMENTS
 const cellContainer = document.querySelector('#cell-container');
-const button = document.querySelector('button');
 const slider = document.querySelector('.slider');
 const output = document.getElementById("gridSizeDisplay");
+const colorButton = document.querySelector('#colorMode');
+const eraseButton = document.querySelector('#eraser');
+const clearButton = document.querySelector('#clearGrid');
+const colorPicker = document.querySelector('#colorPicker');
+const rainbowButn = document.querySelector('#rainbow');
+
+//ADD EVENT LISTENERS
+clearButton.addEventListener('click', reloadGrid);
+eraseButton.addEventListener('click', updateButton);
+colorButton.addEventListener('click', updateButton);
+rainbowButn.addEventListener('click', updateButton);
+colorPicker.addEventListener('input', updateColor);
+document.body.onmousedown = () => (mouseDown = true);
+document.body.onmouseup = () => (mouseDown = false);
+
+//DECLARE CONSTANTS
+const DEFAULT_SIZE = 16;
+
+//DECLARE VARIABLES
+let buttonType = 'Color mode';
+let currentColor = 'black';
+let currentSize = DEFAULT_SIZE;
+let mouseDown = false;
 
 
 //FUNCTIONS
-function generateGrid(rows) {
-    //remove all cells if they exist
-    while (cellContainer.firstChild) {
-        cellContainer.removeChild(cellContainer.lastChild);
-    }
+function clearGrid() {
 
+    //remove all cells if they exist
+    cellContainer.innerHTML = '';
+}
+
+function generateGrid(rows) {
     let currentRows = 0;
     let requestedRows = rows;
 
@@ -31,28 +55,59 @@ function generateGrid(rows) {
         cellContainer.appendChild(row);
         currentRows++;
     }
+
+    //draw
+    changeCellColor();
 }
 
-function changeCellsOnHover() {
+function reloadGrid() {
+    clearGrid();
+    generateGrid(currentSize);
+}
+
+function updateColor(e) {
+    currentColor = e.target.value;
+}
+
+function updateButton(e) {
+    rainbowButn.classList.remove('selected');
+    colorButton.classList.remove('selected');
+    eraseButton.classList.remove('selected');
+
+    buttonType = e.target.textContent;
+    e.target.classList.add('selected');
+}
+
+function changeCellColor() {
     const cells = document.querySelectorAll('.cell');
 
     cells.forEach(div => {
-        div.addEventListener('mouseenter', () => {
-            div.style.backgroundColor = 'black';
-        });
+        div.addEventListener('mousedown', clickVsDrag);
+        div.addEventListener('mouseover', clickVsDrag);
     });
 }
 
-//initialize grid size output to 16 and generate 16x16 grid;
-output.innerHTML = slider.value;
-generateGrid(16);
+function clickVsDrag(e) {
+    if (e.type === 'mouseover' && !mouseDown) {
+        return;
+    } else if (buttonType === 'Color mode') {
+        e.target.style.backgroundColor = currentColor;
+    } else if (buttonType === 'Eraser') {
+        e.target.style.backgroundColor = 'aliceblue';
+    }
+}
 
-//have cells animate one mouse hover
-changeCellsOnHover();
+//initialize grid size output to 16 and generate 16x16 grid;
+window.onload = () => {
+    generateGrid(DEFAULT_SIZE);
+};
 
 //on every slider adjustment, output updated grid size and generate new grid
-slider.oninput = function() {
-    output.innerHTML = this.value;
-    generateGrid(this.value);
-    changeCellsOnHover();
+slider.onmousemove = (e) => {
+    output.innerHTML = `${e.target.value} x ${e.target.value}`;
+};
+
+slider.onchange = (e) => {
+    currentSize = e.target.value;
+    reloadGrid();
 };
