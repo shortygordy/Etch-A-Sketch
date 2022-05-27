@@ -2,7 +2,6 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            /* border: 1px red solid; */
         }
         
         body,
@@ -212,7 +211,7 @@
                 max-height: none;
                 min-height: 700px;
                 height: 100%;
-                padding: 10px 0px;
+                padding: 0px 0px;
             }
             #rightSide {
                 justify-content: space-around;
@@ -221,10 +220,9 @@
             }
             #leftSide {
                 flex-direction: row;
-                width: 100%;
-                height: 70%;
-                flex: 1 1 auto;
+                height: 100%;
                 gap: 50px;
+                flex: 1 1.8 auto;
             }
             #cell-container {
                 height: 250px;
@@ -242,6 +240,7 @@
             #buttons {
                 align-items: flex-start;
                 flex: 1 2 auto;
-                height: 70%;
+                height: 100%;
+                padding: 10px 0px;
             }
         }
